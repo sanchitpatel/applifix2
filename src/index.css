@@ -774,9 +774,10 @@ a {
 
 /* 10. Footer Component */
 .site-footer {
-  margin-top: auto;
+  grid-column: 1 / -1;
   border-top: 1px solid var(--border);
-  padding-top: 40px;
+  padding: 40px 60px 20px 60px;
+  background-color: var(--bg-card);
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -1106,6 +1107,10 @@ a {
     overflow-y: visible;
     padding: 30px;
   }
+
+  .site-footer {
+    padding: 30px 30px 20px 30px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1185,5 +1190,9 @@ a {
   
   .modal-content {
     padding: 24px 16px;
+  }
+
+  .site-footer {
+    padding: 30px 16px 20px 16px;
   }
 }

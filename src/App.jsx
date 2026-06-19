@@ -16,15 +16,13 @@ export default function App() {
 
   return (
     <div className="app-container">
-      {/* Left Column: Branding, Hero copy, Slider, Services, Footer */}
+      {/* Left Column: Branding, Hero copy, Slider, Services */}
       <main className="left-column">
         <Header onOpenBooking={openBooking} />
         
         <Hero onOpenBooking={openBooking} />
         
         <FeaturedServices onOpenBooking={openBooking} />
-        
-        <Footer />
       </main>
 
       {/* Right Column: Video action, Before/After grid, reviews and warranty badges */}
@@ -35,6 +33,9 @@ export default function App() {
         
         <TrustReviews />
       </aside>
+
+      {/* Footer: Spans full width at the bottom of the page */}
+      <Footer />
 
       {/* Booking Modal (Shared glassmorphism popup) */}
       <BookingModal isOpen={isBookingOpen} onClose={closeBooking} />
