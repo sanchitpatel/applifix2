@@ -27,6 +27,29 @@
   z-index: -1;
 }
 
+/* Container that mimics object-fit: cover with exact 16:9 aspect ratio */
+.video-frame-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .video-frame-container {
+    width: 100vw;
+    height: 56.25vw; /* (9/16) * 100 */
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .video-frame-container {
+    width: 177.78vh; /* (16/9) * 100 */
+    height: 100vh;
+  }
+}
+
 /* The video element - full screen background */
 .scroll-video {
   position: absolute;
@@ -34,7 +57,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   display: block;
   /* GPU acceleration for smoother rendering */
   transform: translateZ(0);
@@ -201,7 +224,7 @@
 /* Glassmorphic box to overlay the Google AI logo in the background video */
 .applifix-overlay-box {
   position: absolute;
-  bottom: 6.8%;
+  bottom: 13.2%;
   right: 5.5%;
   background: transparent;
   backdrop-filter: blur(12px);

@@ -46,7 +46,7 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
       
       // Start video playback when container enters the bottom half of viewport
       // (corresponds to scrolling past half of the 100vh hero pane)
-      const triggerOffset = windowHeight / 2;
+      const triggerOffset = windowHeight/1;
       const animationDistance = containerHeight - windowHeight + triggerOffset;
       
       const scrolled = Math.max(0, triggerOffset - rect.top);
@@ -106,22 +106,24 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
       <div ref={containerRef} className="scroll-video-container">
         {/* Sticky video wrapper */}
         <div className="video-wrapper">
-          <video
-            ref={videoRef}
-            className="scroll-video"
-            preload="auto"
-            muted
-            playsInline
-            crossOrigin="anonymous"
-            src="/Cinematic_D_commercial_produ_smooth.mp4"
-            disablePictureInPicture
-            controlsList="nodownload nofullscreen noremoteplayback"
-          >
-            <source src="/Cinematic_D_commercial_produ_smooth.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <div className="applifix-overlay-box">
-            <span>Applifix</span>
+          <div className="video-frame-container">
+            <video
+              ref={videoRef}
+              className="scroll-video"
+              preload="auto"
+              muted
+              playsInline
+              crossOrigin="anonymous"
+              src="/Cinematic_D_commercial_produ_smooth.mp4"
+              disablePictureInPicture
+              controlsList="nodownload nofullscreen noremoteplayback"
+            >
+              <source src="/Cinematic_D_commercial_produ_smooth.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div className="applifix-overlay-box">
+              <span>Applifix</span>
+            </div>
           </div>
           {!isVideoLoaded && (
             <div className="loading-indicator">Loading video...</div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FeaturedServices from './components/FeaturedServices';
@@ -11,6 +11,7 @@ import Lenis from 'lenis';
 
 export default function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const lenisRef = useRef(null);
 
   useEffect(() => {
     // Initialize Lenis smooth scroll momentum
@@ -23,6 +24,8 @@ export default function App() {
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
     });
+
+    lenisRef.current = lenis;
 
     // Run Lenis animation frame loop
     let rafId;
@@ -41,6 +44,17 @@ export default function App() {
   const openBooking = () => setIsBookingOpen(true);
   const closeBooking = () => setIsBookingOpen(false);
 
+  const handleScrollPush = () => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(5 * window.innerHeight, {
+        duration: 7.0, // Majestic, cinematic slow-scroll through all video frames
+        easing: (t) => 1 - Math.pow(1 - t, 3) // easeOutQuart: Fast initial pickup, smooth slow deceleration
+      });
+    } else {
+      window.scrollTo({ top: 5 * window.innerHeight, behavior: 'smooth' });
+    }
+  };
+
   // Check if we're on the demo page
   const isDemo = window.location.pathname === '/demo' || window.location.search.includes('demo');
 
@@ -53,9 +67,16 @@ export default function App() {
     <div className="app-container">
       <main>
         {/* Top Branding & Hero Section */}
-        <div className="left-column">
+        <div className="left-column hero-container">
           <Header onOpenBooking={openBooking} />
           <Hero onOpenBooking={openBooking} />
+          <div
+            className="scroll-indicator-label"
+            onClick={handleScrollPush}
+          >
+            <span>scroll while we fix your iphone</span>
+            <span className="scroll-indicator-arrow">↓</span>
+          </div>
         </div>
 
         {/* Scroll-Driven Feature Showcase (Full Screen) */}

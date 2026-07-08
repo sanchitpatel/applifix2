@@ -1,5 +1,5 @@
 import React from 'react';
-import BeforeAfterSlider from './BeforeAfterSlider';
+import RotatingMockup from './RotatingMockup';
 
 export default function Hero({ onOpenBooking }) {
   const handleScrollToVideo = () => {
@@ -28,7 +28,7 @@ export default function Hero({ onOpenBooking }) {
         </div>
       </div>
       
-      <BeforeAfterSlider />
+      <RotatingMockup />
     </section>
   );
 }

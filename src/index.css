@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ==========================================================================
    APPLIFIX INDIA DESIGN SYSTEM & CSS
    ========================================================================== */
@@ -118,10 +122,10 @@ a {
 
 /* Main Content Column - Full Width Glass Panes */
 .left-column {
-  padding: 60px 40px;
+  padding: 50px 35px;
   display: flex;
   flex-direction: column;
-  gap: 80px;
+  gap: 0px;
   width: 100%;
   max-width: 100%;
   margin: 0;
@@ -135,9 +139,77 @@ a {
   z-index: 1;
 }
 
+/* Reduced spacing specifically for the hero section to lift content up */
+.left-column.hero-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 40px;
+  padding-bottom: 70px;
+  box-sizing: border-box;
+}
+
+/* Scroll indicator label at the bottom of the hero (Glassmorphic Pill) */
+.scroll-indicator-label {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content !important;
+  background: transparent;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 28px;
+  color: #1e293b;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 12px 28px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.05), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 10;
+  pointer-events: auto;
+  letter-spacing: -0.01em;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scroll-indicator-label:hover {
+  transform: translateX(-50%) translateY(-2px);
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 
+    0 12px 36px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.scroll-indicator-label:active {
+  transform: translateX(-50%) scale(0.97) translateY(-2px);
+}
+
+.scroll-indicator-arrow {
+  font-size: 1.1rem;
+  animation: bounce-arrow 1.8s infinite ease-in-out;
+  color: var(--primary);
+  display: inline-block;
+}
+
+@keyframes bounce-arrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+
 /* Constrain content sections to a centered column */
 .left-column>* {
-  max-width: 1100px;
+  max-width: 100%;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -149,7 +221,7 @@ a {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: none;
 }
 
 .logo {
@@ -223,7 +295,7 @@ a {
 .hero-section {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: 48px;
+  gap: 30px;
   align-items: center;
 }
 
@@ -292,48 +364,6 @@ a {
   transform: translateY(-1px);
 }
 
-/* Before/After Slider Container */
-.slider-container {
-  width: 100%;
-  max-width: 420px;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(10px);
-  border-radius: var(--radius-lg);
-  padding: 30px;
-  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  margin: 0 auto;
-}
-
-.device-mockup {
-  position: relative;
-  width: 290px;
-  height: 590px;
-  background-color: #000;
-  border-radius: 46px;
-  border: 12px solid #1e293b;
-  box-shadow: var(--shadow-xl), 0 0 0 2px #475569;
-  overflow: hidden;
-  user-select: none;
-}
-
-/* Speaker & Dynamic Island */
-.device-island {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90px;
-  height: 25px;
-  background-color: #000;
-  border-radius: 15px;
-  z-index: 10;
-  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.2);
-}
-
 /* Before and After Image containers */
 .slider-image-container {
   width: 100%;
@@ -363,8 +393,8 @@ a {
 }
 
 .slider-fixed-wrapper .slider-img {
-  width: 266px;
-  /* Must match inside width of device (290px - 24px border) */
+  width: 250px;
+  /* Must match inside width of device (270px - 20px border) */
   max-width: none;
 }
 
@@ -1280,7 +1310,8 @@ a {
 }
 
 /* 13. Lenis Smooth Scroll Configuration */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -1298,4 +1329,38 @@ html.lenis, html.lenis body {
 
 .lenis-scrolling iframe {
   pointer-events: none;
+}
+
+/* 14. 3D Rotating Showcase Custom Classes (Buttery Smooth) */
+.showcase-card {
+  perspective: 1500px;
+}
+
+.showcase-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 950ms cubic-bezier(0.16, 1, 0.3, 1); /* Custom Ultra-Smooth Ease-Out */
+}
+
+.showcase-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: 44px;
+}
+
+.showcase-face-front {
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+
+.showcase-face-back {
+  transform: rotateY(180deg);
 }
