@@ -120,6 +120,9 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
             <source src="/Cinematic_D_commercial_produ_smooth.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+          <div className="applifix-overlay-box">
+            <span>Applifix</span>
+          </div>
           {!isVideoLoaded && (
             <div className="loading-indicator">Loading video...</div>
           )}
