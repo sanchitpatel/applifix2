@@ -30,7 +30,7 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
 
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
     video.addEventListener('error', handleError);
-    
+
     // Prevent seeking events from blocking
     video.addEventListener('seeking', () => {
       // Allow seeking to happen without blocking
@@ -43,12 +43,12 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
       const rect = container.getBoundingClientRect();
       const containerHeight = container.offsetHeight;
       const windowHeight = window.innerHeight;
-      
+
       // Start video playback when container enters the bottom half of viewport
       // (corresponds to scrolling past half of the 100vh hero pane)
-      const triggerOffset = windowHeight/1;
+      const triggerOffset = windowHeight / 1;
       const animationDistance = containerHeight - windowHeight + triggerOffset;
-      
+
       const scrolled = Math.max(0, triggerOffset - rect.top);
       const scrollProgress = Math.min(1, scrolled / animationDistance);
 
@@ -64,7 +64,7 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
 
       const targetTime = getTargetTime();
       const timeDiff = targetTime - easedTimeRef.current;
-      
+
       // Easing speed: smaller = smoother/slower, larger = faster/tighter.
       // 0.08 offers a perfect balance of responsiveness and buttery smoothness.
       const ease = 0.08;
@@ -129,34 +129,63 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
             <div className="loading-indicator">Loading video...</div>
           )}
         </div>
-        
-        {/* Floating overlay content */}
-        <div className="scroll-content-overlay">
-          {/* Section 1 - Intro */}
-          <section className="overlay-section section-1">
-            <div className="content-box">
-              <h1>State-of-the-Art Repair</h1>
-              <p>Watch our master technicians restore flagship devices frame-by-frame.</p>
-              <p>↓ Scroll to witness the precision ↓</p>
-            </div>
-          </section>
 
-          {/* Section 2 - Middle */}
-          <section className="overlay-section section-2">
-            <div className="content-box">
-              <h2>Flawless Screen Restoration</h2>
+        {/* Scroll-Driven Tree Timeline Overlay */}
+        <div className="tree-timeline-container">
+
+          {/* Card 1: Right */}
+          <div className="timeline-item right-branch" style={{ top: '11%' }}>
+            <div className="tree-card">
+              <h3>Flawless Screen Restoration</h3>
               <p>Removing hairline cracks, preserving OLED display calibration, and restoring original touch responsiveness.</p>
+              <span className="card-badge">Genuine OLED Parts</span>
             </div>
-          </section>
+          </div>
 
-          {/* Section 3 - End */}
-          <section className="overlay-section section-3">
-            <div className="content-box">
-              <h2>Ready to Restore?</h2>
-              <p>Get premium repairs with genuine components and a comprehensive service warranty.</p>
-              <button className="cta-button" onClick={onOpenBooking}>Book a Repair</button>
+          {/* Card 2: Left */}
+          <div className="timeline-item left-branch" style={{ top: '26%' }}>
+            <div className="tree-card">
+              <h3>Intelligent Battery Replacement</h3>
+              <p>Restoring peak battery capacity, optimizing heat dissipation, and maximizing daily battery life.</p>
+              <span className="card-badge">Zero-Cycle Cells</span>
             </div>
-          </section>
+          </div>
+
+          {/* Card 3: Right */}
+          <div className="timeline-item right-branch" style={{ top: '40%' }}>
+            <div className="tree-card">
+              <h3>Advanced Motherboard Micro-Soldering</h3>
+              <p>Resolving complex chip short circuits, logic board issues, and retrieving critical user data.</p>
+              <span className="card-badge">IC Diagnostics</span>
+            </div>
+          </div>
+
+          {/* Card 4: Left */}
+          <div className="timeline-item left-branch" style={{ top: '54%' }}>
+            <div className="tree-card">
+              <h3>Precision Liquid Damage Recovery</h3>
+              <p>Ultrasonic cleaning, corrosion removal, and chemical decontamination of motherboard circuits.</p>
+              <span className="card-badge">De-corrosion Treatment</span>
+            </div>
+          </div>
+
+          {/* Card 5: Right */}
+          <div className="timeline-item right-branch" style={{ top: '68%' }}>
+            <div className="tree-card">
+              <h3>Face ID & Biometrics Calibration</h3>
+              <p>Re-aligning depth-sensing dot projectors, ambient light sensors, and front-facing cameras with precision enclave coding tools.</p>
+              <span className="card-badge">Secure Calibration</span>
+            </div>
+          </div>
+
+          {/* Card 6: Left */}
+          <div className="timeline-item left-branch" style={{ top: '82%' }}>
+            <div className="tree-card">
+              <h3>Chassis & Back Glass Overhaul</h3>
+              <p>Replacing shattered rear glass panels and laser-aligning aerospace-grade outer frames for structural integrity and factory finish.</p>
+              <span className="card-badge">Precision Laser Align</span>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -208,7 +208,7 @@ a {
 
 
 /* Constrain content sections to a centered column */
-.left-column>* {
+.left-column>*:not(header) {
   max-width: 90%;
   width: 90%;
   margin-left: auto;
@@ -1376,4 +1376,55 @@ html.lenis body {
     /* -webkit-text-stroke: 1px rgba(15, 23, 42, 0.18); */
     filter: drop-shadow(0 2px 4px rgba(15, 23, 42, 0.08)) drop-shadow(0 8px 16px rgba(15, 23, 42, 0.04));
   }
+}
+
+/* Relocated Ready to Restore Card styling */
+.ready-to-restore-card {
+  max-width: 800px;
+  width: 100%;
+  margin: 60px auto;
+  text-align: center;
+  padding: 3.5rem 2rem;
+  background: rgba(30, 30, 30, 0.85);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.ready-to-restore-card h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #fff;
+  letter-spacing: -0.02em;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+}
+
+.ready-to-restore-card p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.ready-to-restore-card .cta-button {
+  display: inline-block;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  outline: none;
 }

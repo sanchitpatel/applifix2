@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FeaturedServices from './components/FeaturedServices';
@@ -65,10 +66,10 @@ export default function App() {
 
   return (
     <div className="app-container">
+      <Header onOpenBooking={openBooking} />
       <main>
         {/* Top Branding & Hero Section */}
         <div className="left-column hero-container">
-          <Header onOpenBooking={openBooking} />
           <Hero onOpenBooking={openBooking} />
           <div
             className="scroll-indicator-label"
@@ -84,6 +85,20 @@ export default function App() {
 
         {/* Action, Services, and Reviews */}
         <div className="left-column" style={{ marginTop: 0 }}>
+          {/* Ready to Restore Card */}
+          <div className="ready-to-restore-card">
+            <h2>Ready to Restore?</h2>
+            <p>Get premium repairs with genuine components and a comprehensive service warranty.</p>
+            <motion.button
+              onClick={openBooking}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="cta-button"
+            >
+              Book a Repair
+            </motion.button>
+          </div>
+
           <VideoPlayer />
           <FeaturedServices onOpenBooking={openBooking} />
           <TrustReviews />

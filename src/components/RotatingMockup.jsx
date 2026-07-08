@@ -4,6 +4,10 @@ export default function RotatingMockup() {
   const [step, setStep] = useState(0);
   const frontVideoRef = useRef(null);
   const backVideoRef = useRef(null);
+  const frontVideo9Ref = useRef(null);
+  const backVideo9Ref = useRef(null);
+  const frontVideo7Ref = useRef(null);
+  const backVideo7Ref = useRef(null);
 
   const rotationAngle = step * 180;
 
@@ -12,17 +16,17 @@ export default function RotatingMockup() {
   const getFaceContent = (face) => {
     if (face === 'front') {
       const activeStep = step % 2 === 0 ? step : step - 1;
-      const modulo = activeStep % 6;
-      if (modulo === 0) return 'video';
-      if (modulo === 2) return 'second';
-      return 'apple'; // modulo === 4
+      const assetIndex = activeStep % 3;
+      if (assetIndex === 0) return 'video';
+      if (assetIndex === 1) return 'video9';
+      return 'video7';
     } else {
       const activeStep = step % 2 === 1 ? step : step - 1;
-      if (activeStep < 0) return 'video'; // Initial fallback before any flips
-      const modulo = activeStep % 6;
-      if (modulo === 1) return 'apple';
-      if (modulo === 3) return 'video';
-      return 'second'; // modulo === 5
+      if (activeStep < 0) return 'video9'; // Fallback before any flips
+      const assetIndex = activeStep % 3;
+      if (assetIndex === 0) return 'video';
+      if (assetIndex === 1) return 'video9';
+      return 'video7';
     }
   };
 
@@ -31,38 +35,35 @@ export default function RotatingMockup() {
 
   // Handle step timers and video playback triggers
   useEffect(() => {
-    let timer;
     const currentAsset = step % 3;
+    // Video steps: Play immediately when the card starts rotating
+    const delay = 10;
+    const timer = setTimeout(() => {
+      let activeVideo;
+      if (currentAsset === 0) {
+        activeVideo = (step % 2 === 0) ? frontVideoRef.current : backVideoRef.current;
+      } else if (currentAsset === 1) {
+        activeVideo = (step % 2 === 0) ? frontVideo9Ref.current : backVideo9Ref.current;
+      } else {
+        activeVideo = (step % 2 === 0) ? frontVideo7Ref.current : backVideo7Ref.current;
+      }
 
-    if (currentAsset === 0) {
-      // Video step: Play immediately on start (step 0), or wait for flip animation (step > 0)
-      const delay = step === 0 ? 50 : 950;
-      timer = setTimeout(() => {
-        const activeVideo = (step % 2 === 0) ? frontVideoRef.current : backVideoRef.current;
-        if (activeVideo) {
-          activeVideo.currentTime = 0;
-          activeVideo.play().catch(err => {
-            console.warn("Autoplay blocked or playback failed:", err);
-          });
-        }
-      }, delay);
-    } else {
-      // Image steps: Show for 3 seconds, then transition to next step
-      timer = setTimeout(() => {
-        setStep(prev => prev + 1);
-      }, 4000);
-    }
+      if (activeVideo) {
+        activeVideo.currentTime = 0;
+        activeVideo.play().catch(err => {
+          console.warn("Autoplay blocked or playback failed:", err);
+        });
+      }
+    }, delay);
 
     return () => {
       clearTimeout(timer);
     };
   }, [step]);
 
-  // Handle video ended event
+  // Handle video ended event to automatically advance the flip steps
   const handleVideoEnded = () => {
-    if (step % 3 === 0) {
-      setStep(prev => prev + 1);
-    }
+    setStep(prev => prev + 1);
   };
 
   return (
@@ -84,16 +85,22 @@ export default function RotatingMockup() {
               onEnded={handleVideoEnded}
               className="w-full h-[550px] object-cover block"
             />
-          ) : frontContent === 'second' ? (
-            <img
-              src="/Screenshot 2026-07-08 104458.png"
-              alt="Applifix Device Display Back"
+          ) : frontContent === 'video9' ? (
+            <video
+              ref={frontVideo9Ref}
+              src="/Video Project 9.mp4"
+              muted
+              playsInline
+              onEnded={handleVideoEnded}
               className="w-full h-[550px] object-cover block"
             />
           ) : (
-            <img
-              src="/Gemini_Generated_Image_mxj1nbmxj1nbmxj1.png"
-              alt="Applifix Device Display Front"
+            <video
+              ref={frontVideo7Ref}
+              src="/Video Project 7.mp4"
+              muted
+              playsInline
+              onEnded={handleVideoEnded}
               className="w-full h-[550px] object-cover block"
             />
           )}
@@ -110,16 +117,22 @@ export default function RotatingMockup() {
               onEnded={handleVideoEnded}
               className="w-full h-[550px] object-cover block"
             />
-          ) : backContent === 'second' ? (
-            <img
-              src="/Screenshot 2026-07-08 104458.png"
-              alt="Applifix Device Display Back"
+          ) : backContent === 'video9' ? (
+            <video
+              ref={backVideo9Ref}
+              src="/Video Project 9.mp4"
+              muted
+              playsInline
+              onEnded={handleVideoEnded}
               className="w-full h-[550px] object-cover block"
             />
           ) : (
-            <img
-              src="/Gemini_Generated_Image_mxj1nbmxj1nbmxj1.png"
-              alt="Applifix Device Display Front"
+            <video
+              ref={backVideo7Ref}
+              src="/Video Project 7.mp4"
+              muted
+              playsInline
+              onEnded={handleVideoEnded}
               className="w-full h-[550px] object-cover block"
             />
           )}
