@@ -139,21 +139,21 @@ a {
   z-index: 1;
 }
 
-/* Reduced spacing specifically for the hero section to lift content up */
+/* Spacing for the hero section, adjusted for floating header */
 .left-column.hero-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 40px;
-  padding-bottom: 70px;
+  padding-top: 140px;
+  padding-bottom: 50px;
   box-sizing: border-box;
 }
 
 /* Scroll indicator label at the bottom of the hero (Glassmorphic Pill) */
 .scroll-indicator-label {
   position: absolute;
-  bottom: 10px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   width: max-content !important;
@@ -209,8 +209,8 @@ a {
 
 /* Constrain content sections to a centered column */
 .left-column>* {
-  max-width: 100%;
-  width: 100%;
+  max-width: 90%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1363,4 +1363,17 @@ html.lenis body {
 
 .showcase-face-back {
   transform: rotateY(180deg);
+}
+
+/* Custom Text Gradient Utility */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(180deg, #6f6f6f 0%, #070707 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* -webkit-text-stroke: 1px rgba(15, 23, 42, 0.18); */
+    filter: drop-shadow(0 2px 4px rgba(15, 23, 42, 0.08)) drop-shadow(0 8px 16px rgba(15, 23, 42, 0.04));
+  }
 }
