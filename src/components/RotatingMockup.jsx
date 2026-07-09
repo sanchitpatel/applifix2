@@ -9,6 +9,70 @@ export default function RotatingMockup() {
   const frontVideo7Ref = useRef(null);
   const backVideo7Ref = useRef(null);
 
+  const [videoSources, setVideoSources] = useState({
+    video5: '/Video Project 5.mp4',
+    video7: '/Video Project 7.mp4',
+    video9: '/Video Project 9.mp4'
+  });
+
+  // Prefetch and cache the three rotating mockup videos
+  useEffect(() => {
+    let active = true;
+    const cacheName = 'applifix-video-cache';
+    const urls = {
+      video5: '/Video Project 5.mp4',
+      video7: '/Video Project 7.mp4',
+      video9: '/Video Project 9.mp4'
+    };
+    const createdObjectUrls = {};
+
+    const cacheAndLoadVideos = async () => {
+      try {
+        const cache = await caches.open(cacheName);
+        const updatedSources = { ...urls };
+
+        for (const [key, url] of Object.entries(urls)) {
+          let response = await cache.match(url);
+          
+          if (!response) {
+            console.log(`[Applifix Cache] Pre-fetching hero video ${key} in background...`);
+            const fetched = await fetch(url);
+            if (fetched.ok) {
+              await cache.put(url, fetched.clone());
+              response = fetched;
+            }
+          }
+
+          if (response && active) {
+            const blob = await response.blob();
+            const objectUrl = URL.createObjectURL(blob);
+            createdObjectUrls[key] = objectUrl;
+            updatedSources[key] = objectUrl;
+          }
+        }
+
+        if (active) {
+          setVideoSources(updatedSources);
+          console.log('[Applifix Cache] All Hero Mockup videos loaded as local Blob URLs');
+        }
+      } catch (err) {
+        console.warn('[Applifix Cache] Cache storage failed for hero videos:', err);
+      }
+    };
+
+    // Delay caching slightly to prioritize initial page render
+    const timer = setTimeout(() => {
+      cacheAndLoadVideos();
+    }, 100);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+      Object.values(createdObjectUrls).forEach(url => URL.revokeObjectURL(url));
+    };
+  }, []);
+
+  const lastStepRef = useRef(-1);
   const rotationAngle = step * 180;
 
   // Determine the content of each face based on the step.
@@ -39,6 +103,19 @@ export default function RotatingMockup() {
     // Video steps: Play immediately when the card starts rotating
     const delay = 10;
     const timer = setTimeout(() => {
+      // Pause all front and back videos first to release decoding resource overhead
+      [
+        frontVideoRef.current, backVideoRef.current,
+        frontVideo9Ref.current, backVideo9Ref.current,
+        frontVideo7Ref.current, backVideo7Ref.current
+      ].forEach(v => {
+        if (v) {
+          try {
+            v.pause();
+          } catch (e) {}
+        }
+      });
+
       let activeVideo;
       if (currentAsset === 0) {
         activeVideo = (step % 2 === 0) ? frontVideoRef.current : backVideoRef.current;
@@ -49,7 +126,10 @@ export default function RotatingMockup() {
       }
 
       if (activeVideo) {
-        activeVideo.currentTime = 0;
+        if (lastStepRef.current !== step) {
+          activeVideo.currentTime = 0;
+          lastStepRef.current = step;
+        }
         activeVideo.play().catch(err => {
           console.warn("Autoplay blocked or playback failed:", err);
         });
@@ -59,7 +139,7 @@ export default function RotatingMockup() {
     return () => {
       clearTimeout(timer);
     };
-  }, [step]);
+  }, [step, videoSources]);
 
   // Handle video ended event to automatically advance the flip steps
   const handleVideoEnded = () => {
@@ -75,67 +155,83 @@ export default function RotatingMockup() {
       >
 
         {/* Front Side */}
-        <div className="showcase-face showcase-face-front">
-          {frontContent === 'video' ? (
-            <video
-              ref={frontVideoRef}
-              src="/Video Project 5.mp4"
-              muted
-              playsInline
-              onEnded={handleVideoEnded}
-              className="w-full h-full object-cover block"
-            />
-          ) : frontContent === 'video9' ? (
-            <video
-              ref={frontVideo9Ref}
-              src="/Video Project 9.mp4"
-              muted
-              playsInline
-              onEnded={handleVideoEnded}
-              className="w-full h-full object-cover block"
-            />
-          ) : (
-            <video
-              ref={frontVideo7Ref}
-              src="/Video Project 7.mp4"
-              muted
-              playsInline
-              onEnded={handleVideoEnded}
-              className="w-full h-full object-cover block"
-            />
-          )}
+        <div className="showcase-face showcase-face-front relative">
+          <video
+            ref={frontVideoRef}
+            src={videoSources.video5}
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            className="w-full h-full object-cover absolute top-0 left-0"
+            style={{
+              opacity: frontContent === 'video' ? 1 : 0,
+              pointerEvents: frontContent === 'video' ? 'auto' : 'none'
+            }}
+          />
+          <video
+            ref={frontVideo9Ref}
+            src={videoSources.video9}
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            className="w-full h-full object-cover absolute top-0 left-0"
+            style={{
+              opacity: frontContent === 'video9' ? 1 : 0,
+              pointerEvents: frontContent === 'video9' ? 'auto' : 'none'
+            }}
+          />
+          <video
+            ref={frontVideo7Ref}
+            src={videoSources.video7}
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            className="w-full h-full object-cover absolute top-0 left-0"
+            style={{
+              opacity: frontContent === 'video7' ? 1 : 0,
+              pointerEvents: frontContent === 'video7' ? 'auto' : 'none'
+            }}
+          />
         </div>
 
         {/* Back Side */}
-        <div className="showcase-face showcase-face-back bg-[#e3e3e3]">
-          {backContent === 'video' ? (
-            <video
-              ref={backVideoRef}
-              src="/Video Project 5.mp4"
-              muted
-              playsInline
-              onEnded={handleVideoEnded}
-              className="w-full h-full object-cover block"
-            />
-          ) : backContent === 'video9' ? (
-            <video
-              ref={backVideo9Ref}
-              src="/Video Project 9.mp4"
-              muted
-              playsInline
-              onEnded={handleVideoEnded}
-              className="w-full h-full object-cover block"
-            />
-          ) : (
-            <video
-              ref={backVideo7Ref}
-              src="/Video Project 7.mp4"
-              muted
-              playsInline
-              onEnded={handleVideoEnded}
-              className="w-full h-full object-cover block"
-            />
-          )}
+        <div className="showcase-face showcase-face-back bg-[#e3e3e3] relative">
+          <video
+            ref={backVideoRef}
+            src={videoSources.video5}
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            className="w-full h-full object-cover absolute top-0 left-0"
+            style={{
+              opacity: backContent === 'video' ? 1 : 0,
+              pointerEvents: backContent === 'video' ? 'auto' : 'none'
+            }}
+          />
+          <video
+            ref={backVideo9Ref}
+            src={videoSources.video9}
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            className="w-full h-full object-cover absolute top-0 left-0"
+            style={{
+              opacity: backContent === 'video9' ? 1 : 0,
+              pointerEvents: backContent === 'video9' ? 'auto' : 'none'
+            }}
+          />
+          <video
+            ref={backVideo7Ref}
+            src={videoSources.video7}
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            className="w-full h-full object-cover absolute top-0 left-0"
+            style={{
+              opacity: backContent === 'video7' ? 1 : 0,
+              pointerEvents: backContent === 'video7' ? 'auto' : 'none'
+            }}
+          />
         </div>
 
       </div>
