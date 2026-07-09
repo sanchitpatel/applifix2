@@ -1486,7 +1486,7 @@ a {
     border-radius: 0;
   }
 
-  .left-column > *:not(header):not(.scroll-indicator-label) {
+  .left-column>*:not(header):not(.scroll-indicator-label) {
     max-width: 100% !important;
     width: 100% !important;
   }
@@ -1551,7 +1551,54 @@ a {
   }
 
   .services-grid {
-    grid-template-columns: 1fr;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-behavior: smooth !important;
+    scrollbar-width: none !important;
+    width: 100% !important;
+    gap: 16px !important;
+    padding: 10px 4px 20px 4px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .services-grid::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .service-card {
+    flex: 0 0 250px !important;
+    min-width: 250px !important;
+    padding: 20px 16px !important;
+    gap: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  .service-icon-wrapper {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .service-icon-wrapper svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .service-name {
+    font-size: 1.1rem !important;
+  }
+
+  .service-desc {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .price-val {
+    font-size: 1rem !important;
+  }
+
+  .service-link {
+    font-size: 0.8rem !important;
   }
 
   .gallery-grid {
@@ -1581,9 +1628,13 @@ a {
     padding: 50px 24px 30px 24px;
   }
 
+  .reviews-slider-track {
+    padding-bottom: 15px !important;
+  }
+
   .left-column .ready-to-restore-card {
     padding: 2.2rem 1.25rem !important;
-    margin: 30px auto !important;
+    margin: -40px auto 40px auto !important;
     border-radius: 24px !important;
   }
 
@@ -1808,17 +1859,20 @@ html.lenis body {
     border-radius: 24px !important;
     padding: 12px !important;
   }
+
   .review-slide-card {
     flex: 0 0 280px !important;
     border-radius: 24px !important;
     padding: 16px !important;
   }
 }
+
 @media (min-width: 481px) and (max-width: 768px) {
   .video-slide-card {
     flex: 0 0 340px !important;
     border-radius: 28px !important;
   }
+
   .review-slide-card {
     flex: 0 0 320px !important;
     border-radius: 28px !important;

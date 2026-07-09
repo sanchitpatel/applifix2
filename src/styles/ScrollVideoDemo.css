@@ -246,7 +246,7 @@
   }
 
   .timeline-item {
-    width: 52.5%;
+    width: 55.5%;
   }
 
   .timeline-item.left-branch {
@@ -289,25 +289,25 @@
 
   .tree-card {
     max-width: 100%;
-    padding: 0.85rem 0.75rem;
+    padding: 1.05rem 0.85rem;
     border-radius: 24px;
   }
 
   .tree-card h3 {
     font-size: 0.82rem !important;
-    margin-bottom: 0.35rem !important;
+    margin-bottom: 0.55rem !important;
     line-height: 1.25 !important;
-    font-weight: 600 !important;
+    font-weight: 540 !important;
   }
 
   .tree-card p {
     font-size: 0.62rem !important;
-    line-height: 1.35 !important;
+    line-height: 1.40 !important;
     margin-bottom: 0.5rem !important;
   }
 
   .tree-card .card-badge {
-    padding: 2px 8px !important;
+    padding: 4px 8px !important;
     font-size: 0.55rem !important;
   }
 }
