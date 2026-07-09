@@ -33,9 +33,9 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
           return;
         }
 
-        // If not cached, schedule background prefetch after 5s to avoid network congestion
+        // If not cached, schedule background prefetch after 4s to avoid network congestion
         if (!response && active) {
-          console.log('[Applifix Cache] Scroll video not cached. Scheduling background prefetch in 5s...');
+          console.log('[Applifix Cache] Scroll video not cached. Scheduling background prefetch in 3.5s...');
           setTimeout(async () => {
             if (!active) return;
             try {
@@ -57,7 +57,7 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
             } catch (fetchErr) {
               console.warn('[Applifix Cache] Background prefetch failed:', fetchErr);
             }
-          }, 5000);
+          }, 3500);
         }
       } catch (err) {
         console.warn('[Applifix Cache] Cache storage failed, streaming from Vercel:', err);

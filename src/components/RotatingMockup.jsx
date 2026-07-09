@@ -54,7 +54,7 @@ export default function RotatingMockup() {
 
         // If not cached yet (first visit), delay background prefetching to avoid network queue fight
         if (!allCached && active) {
-          console.log('[Applifix Cache] Hero videos not fully cached. Scheduling background fetch in 4s...');
+          console.log('[Applifix Cache] Hero videos not fully cached. Scheduling background fetch in 2.5s...');
           setTimeout(async () => {
             if (!active) return;
             try {
@@ -86,7 +86,7 @@ export default function RotatingMockup() {
             } catch (fetchErr) {
               console.warn('[Applifix Cache] Delayed prefetch fetch failed:', fetchErr);
             }
-          }, 4000);
+          }, 2500);
         }
       } catch (err) {
         console.warn('[Applifix Cache] Cache storage setup failed for hero videos:', err);
