@@ -4,9 +4,66 @@ import '../styles/ScrollVideoDemo.css';
 const ScrollVideoDemo = ({ onOpenBooking }) => {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
+  const [videoSrc, setVideoSrc] = useState('/Cinematic_D_commercial_produ_smooth.mp4');
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const requestRef = useRef(null);
   const easedTimeRef = useRef(0);
+
+  // Prefetch and cache the video file using Cache Storage API
+  useEffect(() => {
+    let active = true;
+    let objectUrl = null;
+
+    const cacheAndLoadVideo = async () => {
+      const videoUrl = '/Cinematic_D_commercial_produ_smooth.mp4';
+      const cacheName = 'applifix-video-cache';
+
+      try {
+        const cache = await caches.open(cacheName);
+        let response = await cache.match(videoUrl);
+
+        if (!response) {
+          console.log('[Applifix Cache] Pre-fetching scroll video in background...');
+          const fetchedResponse = await fetch(videoUrl);
+          if (fetchedResponse.ok) {
+            await cache.put(videoUrl, fetchedResponse.clone());
+            response = fetchedResponse;
+          }
+        } else {
+          console.log('[Applifix Cache] Loaded scroll video from browser cache storage!');
+        }
+
+        if (response && active) {
+          const blob = await response.blob();
+          objectUrl = URL.createObjectURL(blob);
+          console.log('[Applifix Cache] Video loaded as local Blob URL');
+          setVideoSrc(objectUrl);
+        }
+      } catch (err) {
+        console.warn('[Applifix Cache] Cache storage failed, streaming from Vercel:', err);
+      }
+    };
+
+    // Delay download slightly to prioritize page load
+    const timer = setTimeout(() => {
+      cacheAndLoadVideo();
+    }, 1000);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, []);
+
+  // Force video reload when changing source from network to cached blob
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, [videoSrc]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -114,11 +171,11 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
               muted
               playsInline
               crossOrigin="anonymous"
-              src="/Cinematic_D_commercial_produ_smooth.mp4"
+              src={videoSrc}
               disablePictureInPicture
               controlsList="nodownload nofullscreen noremoteplayback"
             >
-              <source src="/Cinematic_D_commercial_produ_smooth.mp4" type="video/mp4" />
+              <source src={videoSrc} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             <div className="applifix-overlay-box">
