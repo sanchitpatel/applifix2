@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 
 export default function RotatingMockup() {
   const [step, setStep] = useState(0);
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(true);
+
   const frontVideoRef = useRef(null);
   const backVideoRef = useRef(null);
   const frontVideo9Ref = useRef(null);
@@ -14,6 +17,13 @@ export default function RotatingMockup() {
     video7: '/Video Project 7.mp4',
     video9: '/Video Project 9.mp4'
   });
+
+  const cachedBlobUrlsRef = useRef({});
+  const stepRef = useRef(0);
+
+  useEffect(() => {
+    stepRef.current = step;
+  }, [step]);
 
   // Prefetch and cache the three rotating mockup videos
   useEffect(() => {
@@ -80,8 +90,16 @@ export default function RotatingMockup() {
               }
 
               if (active) {
-                setVideoSources(updatedSources);
-                console.log('[Applifix Cache] All Hero Mockup videos successfully cached and swapped to Blob URLs');
+                cachedBlobUrlsRef.current = updatedSources;
+                const latestAsset = stepRef.current % 3;
+                setVideoSources(prev => {
+                  const next = { ...prev };
+                  if (latestAsset !== 0 && updatedSources.video5) next.video5 = updatedSources.video5;
+                  if (latestAsset !== 1 && updatedSources.video9) next.video9 = updatedSources.video9;
+                  if (latestAsset !== 2 && updatedSources.video7) next.video7 = updatedSources.video7;
+                  return next;
+                });
+                console.log('[Applifix Cache] Background prefetch complete. Safe inactive videos updated to Blob URLs.');
               }
             } catch (fetchErr) {
               console.warn('[Applifix Cache] Delayed prefetch fetch failed:', fetchErr);
@@ -104,6 +122,48 @@ export default function RotatingMockup() {
       Object.values(createdObjectUrls).forEach(url => URL.revokeObjectURL(url));
     };
   }, []);
+
+  // IntersectionObserver to pause videos when they are scrolled out of view (saving CPU/GPU/battery)
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.15 } // Trigger when at least 15% of the mockup card is visible
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Automatically apply any pending cached Blob URLs to sources when steps change (making them inactive)
+  useEffect(() => {
+    const currentAsset = step % 3;
+    setVideoSources(prev => {
+      const next = { ...prev };
+      let changed = false;
+
+      if (cachedBlobUrlsRef.current.video5 && next.video5 !== cachedBlobUrlsRef.current.video5 && currentAsset !== 0) {
+        next.video5 = cachedBlobUrlsRef.current.video5;
+        changed = true;
+      }
+      if (cachedBlobUrlsRef.current.video9 && next.video9 !== cachedBlobUrlsRef.current.video9 && currentAsset !== 1) {
+        next.video9 = cachedBlobUrlsRef.current.video9;
+        changed = true;
+      }
+      if (cachedBlobUrlsRef.current.video7 && next.video7 !== cachedBlobUrlsRef.current.video7 && currentAsset !== 2) {
+        next.video7 = cachedBlobUrlsRef.current.video7;
+        changed = true;
+      }
+
+      return changed ? next : prev;
+    });
+  }, [step]);
 
   const lastStepRef = useRef(-1);
   const fallbackTimerRef = useRef(null);
@@ -133,6 +193,23 @@ export default function RotatingMockup() {
 
   // Handle step timers and video playback triggers
   useEffect(() => {
+    if (!isVisible) {
+      // Pause all front and back videos when the mockup is scrolled out of view to save battery and performance
+      [
+        frontVideoRef.current, backVideoRef.current,
+        frontVideo9Ref.current, backVideo9Ref.current,
+        frontVideo7Ref.current, backVideo7Ref.current
+      ].forEach(v => {
+        if (v) {
+          try {
+            v.pause();
+          } catch (e) {}
+        }
+      });
+      clearTimeout(fallbackTimerRef.current);
+      return;
+    }
+
     const currentAsset = step % 3;
     // Video steps: Play immediately when the card starts rotating
     const delay = 10;
@@ -190,7 +267,7 @@ export default function RotatingMockup() {
       clearTimeout(timer);
       clearTimeout(fallbackTimerRef.current);
     };
-  }, [step, videoSources]);
+  }, [step, videoSources, isVisible]);
 
   // Handle video ended event to automatically advance the flip steps
   const handleVideoEnded = () => {
@@ -198,7 +275,7 @@ export default function RotatingMockup() {
   };
 
   return (
-    <div className="showcase-card relative mx-auto w-[290px] min-[375px]:w-[335px] sm:w-[480px] md:w-[630px] h-[250px] min-[375px]:h-[285px] sm:h-[410px] md:h-[540px] bg-transparent rounded-[24px] sm:rounded-[36px] md:rounded-[44px] border border-none shadow-[0_10px_30px_rgba(0,0,0,0.08),_inset_0_1px_0_rgba(255,255,255,0.3)] overflow-hidden select-none">
+    <div ref={containerRef} className="showcase-card relative mx-auto w-[290px] min-[375px]:w-[335px] sm:w-[480px] md:w-[630px] h-[250px] min-[375px]:h-[285px] sm:h-[410px] md:h-[540px] bg-transparent rounded-[24px] sm:rounded-[36px] md:rounded-[44px] border border-none shadow-[0_10px_30px_rgba(0,0,0,0.08),_inset_0_1px_0_rgba(255,255,255,0.3)] overflow-hidden select-none">
       {/* 3D Flipper Container for screen */}
       <div
         className="showcase-inner"
