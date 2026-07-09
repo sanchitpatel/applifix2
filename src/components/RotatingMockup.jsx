@@ -287,6 +287,7 @@ export default function RotatingMockup() {
           <video
             ref={frontVideoRef}
             src={videoSources.video5}
+            preload="auto"
             muted
             playsInline
             onEnded={handleVideoEnded}
@@ -299,6 +300,7 @@ export default function RotatingMockup() {
           <video
             ref={frontVideo9Ref}
             src={videoSources.video9}
+            preload="none"
             muted
             playsInline
             onEnded={handleVideoEnded}
@@ -311,6 +313,7 @@ export default function RotatingMockup() {
           <video
             ref={frontVideo7Ref}
             src={videoSources.video7}
+            preload="none"
             muted
             playsInline
             onEnded={handleVideoEnded}
@@ -327,6 +330,7 @@ export default function RotatingMockup() {
           <video
             ref={backVideoRef}
             src={videoSources.video5}
+            preload="auto"
             muted
             playsInline
             onEnded={handleVideoEnded}
@@ -339,6 +343,7 @@ export default function RotatingMockup() {
           <video
             ref={backVideo9Ref}
             src={videoSources.video9}
+            preload="none"
             muted
             playsInline
             onEnded={handleVideoEnded}
@@ -351,6 +356,7 @@ export default function RotatingMockup() {
           <video
             ref={backVideo7Ref}
             src={videoSources.video7}
+            preload="none"
             muted
             playsInline
             onEnded={handleVideoEnded}
