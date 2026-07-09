@@ -58,13 +58,11 @@ export default function RotatingMockup() {
         // If everything is already cached (returning visit), apply Blob URLs immediately
         if (allCached && active) {
           setVideoSources(updatedSources);
-          console.log('[Applifix Cache] Hero videos loaded from local cache storage instantly.');
           return;
         }
 
         // If not cached yet (first visit), delay background prefetching to avoid network queue fight
         if (!allCached && active) {
-          console.log('[Applifix Cache] Hero videos not fully cached. Scheduling background fetch in 1.2s...');
           setTimeout(async () => {
             if (!active) return;
             try {
@@ -73,7 +71,6 @@ export default function RotatingMockup() {
 
                 let response = await cache.match(url);
                 if (!response) {
-                  console.log(`[Applifix Cache] Background fetching hero video: ${key}...`);
                   const fetched = await fetch(url);
                   if (fetched.ok) {
                     await cache.put(url, fetched.clone());
@@ -99,7 +96,6 @@ export default function RotatingMockup() {
                   if (latestAsset !== 2 && updatedSources.video7) next.video7 = updatedSources.video7;
                   return next;
                 });
-                console.log('[Applifix Cache] Background prefetch complete. Safe inactive videos updated to Blob URLs.');
               }
             } catch (fetchErr) {
               console.warn('[Applifix Cache] Delayed prefetch fetch failed:', fetchErr);

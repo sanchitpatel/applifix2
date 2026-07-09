@@ -42,6 +42,21 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isBookingOpen) {
+      lenisRef.current?.stop();
+      document.body.classList.add('no-scroll');
+    } else {
+      lenisRef.current?.start();
+      document.body.classList.remove('no-scroll');
+    }
+
+    return () => {
+      lenisRef.current?.start();
+      document.body.classList.remove('no-scroll');
+    };
+  }, [isBookingOpen]);
+
   const openBooking = () => setIsBookingOpen(true);
   const closeBooking = () => setIsBookingOpen(false);
 

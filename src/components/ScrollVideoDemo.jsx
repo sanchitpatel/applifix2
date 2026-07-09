@@ -24,7 +24,6 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
 
         // If already cached, apply Blob URL instantly
         if (response) {
-          console.log('[Applifix Cache] Loaded scroll video from browser cache storage instantly!');
           if (active) {
             const blob = await response.blob();
             objectUrl = URL.createObjectURL(blob);
@@ -35,13 +34,11 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
 
         // If not cached, schedule background prefetch after 4s to avoid network congestion
         if (!response && active) {
-          console.log('[Applifix Cache] Scroll video not cached. Scheduling background prefetch in 3.5s...');
           setTimeout(async () => {
             if (!active) return;
             try {
               let res = await cache.match(videoUrl);
               if (!res) {
-                console.log('[Applifix Cache] Background pre-fetching scroll video...');
                 const fetchedResponse = await fetch(videoUrl);
                 if (fetchedResponse.ok) {
                   await cache.put(videoUrl, fetchedResponse.clone());
@@ -52,7 +49,6 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
                 const blob = await res.blob();
                 objectUrl = URL.createObjectURL(blob);
                 setVideoSrc(objectUrl);
-                console.log('[Applifix Cache] Scroll video loaded from cached Blob URL');
               }
             } catch (fetchErr) {
               console.warn('[Applifix Cache] Background prefetch failed:', fetchErr);
@@ -93,7 +89,6 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
 
     // Handle video loaded
     const handleLoadedMetadata = () => {
-      console.log('✅ Video loaded! Duration:', video.duration, 'seconds');
       setIsVideoLoaded(true);
       video.pause();
       video.currentTime = 0;
