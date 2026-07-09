@@ -1240,6 +1240,7 @@ a {
   bottom: 0;
   background-color: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 100;
   display: flex;
   justify-content: center;
@@ -1741,4 +1742,12 @@ html.lenis body {
   height: 1px;
   margin: 80px auto 50px auto;
   background: linear-gradient(90deg, transparent 0%, rgba(226, 232, 240, 0.2) 20%, rgba(226, 232, 240, 0.8) 50%, rgba(226, 232, 240, 0.2) 80%, transparent 100%);
+}
+
+/* Explicit backdrop-filter rules for Safari and Vercel builds */
+.site-header {
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  padding-bottom: 10px !important;
 }

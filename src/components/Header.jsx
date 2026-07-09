@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function Header({ onOpenBooking }) {
   return (
-    <header className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[85%] max-w-[600px] bg-white/40 backdrop-blur-xl rounded-full border border-slate-300/50 px-4 py-2 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.03)] select-none">
+    <header className="site-header fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[85%] max-w-[600px] bg-white/40 backdrop-blur-xl rounded-full border border-slate-300/50 px-4 py-2 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.03)] select-none">
       
       {/* Left: Circular Logo & Brand name */}
       <div className="flex items-center gap-2.5">
