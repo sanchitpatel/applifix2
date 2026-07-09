@@ -4,13 +4,13 @@ import { motion } from 'framer-motion';
 export default function Header({ onOpenBooking }) {
   return (
     <header className="site-header fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[85%] max-w-[600px] bg-white/40 backdrop-blur-xl rounded-full border border-slate-300/50 px-4 py-2 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.03)] select-none">
-      
+
       {/* Left: Circular Logo & Brand name */}
       <div className="flex items-center gap-2.5">
         <div className="bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-xl shrink-0 overflow-hidden">
-          <img 
-            src="/Gemini_Generated_Image_djkdejdjkdejdjkd.png" 
-            alt="APPLIFIX Logo" 
+          <img
+            src="/Gemini_Generated_Image_djkdejdjkdejdjkd.png"
+            alt="APPLIFIX Logo"
             className="w-full h-full object-cover"
           />
         </div>
@@ -18,31 +18,31 @@ export default function Header({ onOpenBooking }) {
           APPLIFIX<span className="text-blue-500 text-lg">.</span>
         </span>
       </div>
-      
+
       {/* Middle: Navigation Links */}
       <nav className="hidden sm:flex items-center gap-6 md:gap-8">
-        <a 
-          href="#repairs" 
+        <a
+          href="#repairs"
           className="text-slate-700 hover:text-slate-900 text-sm font-semibold tracking-wide transition-colors duration-200"
         >
           Repairs
         </a>
-        <a 
-          href="#pricing" 
+        <a
+          href="#pricing"
           className="text-slate-700 hover:text-slate-900 text-sm font-semibold tracking-wide transition-colors duration-200"
         >
           Store
         </a>
-        <a 
-          href="#support" 
+        <a
+          href="#support"
           className="text-slate-700 hover:text-slate-900 text-sm font-semibold tracking-wide transition-colors duration-200"
         >
           Support
         </a>
       </nav>
-      
+
       {/* Right: CTA Booking Button */}
-      <motion.button 
+      <motion.button
         onClick={onOpenBooking}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
@@ -68,7 +68,7 @@ export default function Header({ onOpenBooking }) {
       >
         Book Repair
       </motion.button>
-      
+
     </header>
   );
 }
