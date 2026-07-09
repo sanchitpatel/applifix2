@@ -127,12 +127,14 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
       const ease = 0.08;
 
       if (Math.abs(timeDiff) > 0.001) {
+        // Always update the eased time at 60fps to keep the motion buttery-smooth
+        easedTimeRef.current += timeDiff * ease;
+        easedTimeRef.current = Math.max(0, Math.min(video.duration, easedTimeRef.current));
+
         // Only trigger a new seek if the video is NOT currently seeking.
         // This avoids piling up abort-seek requests in the browser decoder thread.
         if (!video.seeking) {
           try {
-            easedTimeRef.current += timeDiff * ease;
-            easedTimeRef.current = Math.max(0, Math.min(video.duration, easedTimeRef.current));
             video.currentTime = easedTimeRef.current;
           } catch (e) {
             // Ignore seek errors
