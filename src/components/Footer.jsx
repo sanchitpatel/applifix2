@@ -8,13 +8,13 @@ export default function Footer() {
       <div className="footer-grid">
         <div className="footer-info">
           <div className="logo" style={{ border: 'none', padding: 0 }}>
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--primary)' }}>
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-              <line x1="12" y1="18" x2="12.01" y2="18"></line>
-              <path d="M9 6h6"></path>
-              <path d="M14.7 12.3a2.5 2.5 0 0 1-3.4-3.4"></path>
-              <path d="M10 13l-3 3"></path>
-            </svg>
+            <div className="bg-white rounded-full w-14 h-14 flex items-center justify-center shadow-md shrink-0 overflow-hidden">
+              <img 
+                src="/Gemini_Generated_Image_djkdejdjkdejdjkd.png" 
+                alt="APPLIFIX Logo" 
+                className="w-full h-full object-cover"
+              />
+            </div>
             <span>APPLIFIX</span>India
           </div>
           

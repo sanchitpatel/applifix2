@@ -85,8 +85,14 @@ export default function App() {
 
         {/* Action, Services, and Reviews */}
         <div className="left-column" style={{ marginTop: 0 }}>
+          <VideoPlayer />
+          <div className="section-divider"></div>
+          <FeaturedServices onOpenBooking={openBooking} />
+          <div className="section-divider"></div>
+          <TrustReviews />
+
           {/* Ready to Restore Card */}
-          <div className="ready-to-restore-card">
+          <div className="ready-to-restore-card" style={{ marginBottom: '50px' }}>
             <h2>Ready to Restore?</h2>
             <p>Get premium repairs with genuine components and a comprehensive service warranty.</p>
             <motion.button
@@ -98,10 +104,6 @@ export default function App() {
               Book a Repair
             </motion.button>
           </div>
-
-          <VideoPlayer />
-          <FeaturedServices onOpenBooking={openBooking} />
-          <TrustReviews />
         </div>
       </main>
 
