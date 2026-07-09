@@ -49,8 +49,11 @@ export default function TrustReviews() {
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = direction === 'left' ? -404 : 404; // 380px card width + 24px gap
-      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      const container = scrollRef.current;
+      const card = container.querySelector('.review-slide-card');
+      const cardWidth = card ? card.offsetWidth : 300;
+      const scrollAmount = direction === 'left' ? -(cardWidth + 24) : (cardWidth + 24);
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 

@@ -3,19 +3,19 @@ import { motion } from 'framer-motion';
 
 export default function Header({ onOpenBooking }) {
   return (
-    <header className="site-header fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[85%] max-w-[600px] bg-white/40 backdrop-blur-xl rounded-full border border-slate-300/50 px-4 py-2 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.03)] select-none">
+    <header className="site-header fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[100] w-[92%] sm:w-[85%] max-w-[600px] bg-white/40 backdrop-blur-xl rounded-full border border-slate-300/50 px-3 py-1.5 sm:px-4 sm:py-2 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.03)] select-none">
 
       {/* Left: Circular Logo & Brand name */}
-      <div className="flex items-center gap-2.5">
-        <div className="bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-xl shrink-0 overflow-hidden">
+      <div className="flex items-center gap-2 sm:gap-2.5">
+        <div className="bg-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow-xl shrink-0 overflow-hidden">
           <img
             src="/Gemini_Generated_Image_djkdejdjkdejdjkd.png"
             alt="APPLIFIX Logo"
             className="w-full h-full object-cover"
           />
         </div>
-        <span className="text-slate-800 font-extrabold text-xl tracking-tight select-none">
-          APPLIFIX<span className="text-blue-500 text-lg">.</span>
+        <span className="text-slate-800 font-extrabold text-base sm:text-xl tracking-tight select-none">
+          APPLIFIX<span className="text-blue-500 text-base sm:text-lg">.</span>
         </span>
       </div>
 
@@ -46,7 +46,7 @@ export default function Header({ onOpenBooking }) {
         onClick={onOpenBooking}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className="px-5 py-2 min-h-[40px] text-xs md:text-sm font-semibold border-none outline-none text-white rounded-[25px] transition-[box-shadow,opacity] duration-200 ease-out focus:outline-none flex items-center justify-center gap-1.5 whitespace-nowrap will-change-transform transform-gpu antialiased subpixel-antialiased"
+        className="px-3.5 py-1.5 sm:px-5 sm:py-2 min-h-[32px] sm:min-h-[40px] text-[10px] sm:text-xs md:text-sm font-semibold border-none outline-none text-white rounded-full transition-[box-shadow,opacity] duration-200 ease-out focus:outline-none flex items-center justify-center gap-1.5 whitespace-nowrap will-change-transform transform-gpu antialiased subpixel-antialiased"
         style={{
           background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
           boxShadow: '0 4px 15px rgba(59, 130, 246, 0.4)',

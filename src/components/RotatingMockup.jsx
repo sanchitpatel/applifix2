@@ -67,7 +67,7 @@ export default function RotatingMockup() {
   };
 
   return (
-    <div className="showcase-card relative w-[630px] h-[540px] bg-transparent rounded-[44px] border border-none shadow-[0_10px_30px_rgba(0,0,0,0.08),_inset_0_1px_0_rgba(255,255,255,0.3)] overflow-hidden select-none">
+    <div className="showcase-card relative w-[290px] min-[375px]:w-[335px] sm:w-[480px] md:w-[630px] h-[250px] min-[375px]:h-[285px] sm:h-[410px] md:h-[540px] bg-transparent rounded-[24px] sm:rounded-[36px] md:rounded-[44px] border border-none shadow-[0_10px_30px_rgba(0,0,0,0.08),_inset_0_1px_0_rgba(255,255,255,0.3)] overflow-hidden select-none">
       {/* 3D Flipper Container for screen */}
       <div
         className="showcase-inner"
@@ -83,7 +83,7 @@ export default function RotatingMockup() {
               muted
               playsInline
               onEnded={handleVideoEnded}
-              className="w-full h-[550px] object-cover block"
+              className="w-full h-full object-cover block"
             />
           ) : frontContent === 'video9' ? (
             <video
@@ -92,7 +92,7 @@ export default function RotatingMockup() {
               muted
               playsInline
               onEnded={handleVideoEnded}
-              className="w-full h-[550px] object-cover block"
+              className="w-full h-full object-cover block"
             />
           ) : (
             <video
@@ -101,7 +101,7 @@ export default function RotatingMockup() {
               muted
               playsInline
               onEnded={handleVideoEnded}
-              className="w-full h-[550px] object-cover block"
+              className="w-full h-full object-cover block"
             />
           )}
         </div>
@@ -115,7 +115,7 @@ export default function RotatingMockup() {
               muted
               playsInline
               onEnded={handleVideoEnded}
-              className="w-full h-[550px] object-cover block"
+              className="w-full h-full object-cover block"
             />
           ) : backContent === 'video9' ? (
             <video
@@ -124,7 +124,7 @@ export default function RotatingMockup() {
               muted
               playsInline
               onEnded={handleVideoEnded}
-              className="w-full h-[550px] object-cover block"
+              className="w-full h-full object-cover block"
             />
           ) : (
             <video
@@ -133,7 +133,7 @@ export default function RotatingMockup() {
               muted
               playsInline
               onEnded={handleVideoEnded}
-              className="w-full h-[550px] object-cover block"
+              className="w-full h-full object-cover block"
             />
           )}
         </div>

@@ -1479,15 +1479,9 @@ a {
     border-radius: 0;
   }
 
-  .site-header {
-    flex-direction: column;
-    gap: 16px;
-    padding-bottom: 16px;
-    text-align: center;
-  }
-
-  .nav-links {
-    gap: 16px;
+  .left-column > *:not(header) {
+    max-width: 100% !important;
+    width: 100% !important;
   }
 
   .hero-title {
@@ -1742,5 +1736,28 @@ html.lenis body {
 .site-header {
   background: rgba(255, 255, 255, 0.4) !important;
   backdrop-filter: blur(24px) !important;
-  padding-bottom: 10px !important;
+}
+
+/* Horizontal slide card responsiveness overrides */
+@media (max-width: 480px) {
+  .video-slide-card {
+    flex: 0 0 280px !important;
+    border-radius: 24px !important;
+    padding: 12px !important;
+  }
+  .review-slide-card {
+    flex: 0 0 280px !important;
+    border-radius: 24px !important;
+    padding: 16px !important;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .video-slide-card {
+    flex: 0 0 340px !important;
+    border-radius: 28px !important;
+  }
+  .review-slide-card {
+    flex: 0 0 320px !important;
+    border-radius: 28px !important;
+  }
 }

@@ -268,7 +268,24 @@
 
   .tree-card {
     max-width: 100%;
-    padding: 1.5rem;
+    padding: 1.5rem 1.25rem;
+    border-radius: 20px;
+  }
+
+  .tree-card h3 {
+    font-size: 1.25rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .tree-card p {
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0.85rem !important;
+  }
+
+  .tree-card .card-badge {
+    padding: 3px 10px !important;
+    font-size: 0.65rem !important;
   }
 }
 
@@ -325,8 +342,8 @@
   }
 
   .scroll-video-container {
-    height: 200vh;
-    /* Shorter scroll on mobile */
+    height: 450vh;
+    /* Sufficiently long scroll on mobile to avoid timeline card overlap and maintain interactive seeks */
   }
 
   .cta-button {

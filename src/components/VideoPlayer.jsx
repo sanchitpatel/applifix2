@@ -33,9 +33,11 @@ export default function VideoPlayer() {
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      // Scroll by width of one slide card (440px) + gap (24px)
-      const scrollAmount = direction === 'left' ? -464 : 464;
-      scrollRef.current.scrollBy({
+      const container = scrollRef.current;
+      const card = container.querySelector('.video-slide-card');
+      const cardWidth = card ? card.offsetWidth : 300;
+      const scrollAmount = direction === 'left' ? -(cardWidth + 24) : (cardWidth + 24);
+      container.scrollBy({
         left: scrollAmount,
         behavior: 'smooth'
       });
