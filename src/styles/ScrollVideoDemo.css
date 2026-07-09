@@ -242,50 +242,73 @@
 /* Responsive tree structure adjustments */
 @media (max-width: 768px) {
   .timeline-trunk {
-    left: 20px;
-    /* move the trunk to the left side */
+    left: 50%;
   }
 
   .timeline-item {
-    width: calc(100% - 40px);
-    left: 20px !important;
+    width: 52.5%;
+  }
+
+  .timeline-item.left-branch {
+    left: 0;
     right: auto !important;
     justify-content: flex-start !important;
-    padding-left: 30px !important;
+    padding-left: 6px !important;
     padding-right: 0 !important;
   }
 
-  .timeline-item .branch-line {
-    left: 0 !important;
-    right: auto !important;
-    width: 30px;
+  .timeline-item.right-branch {
+    right: 0;
+    left: auto !important;
+    justify-content: flex-end !important;
+    padding-right: 6px !important;
+    padding-left: 0 !important;
   }
 
-  .timeline-item .branch-node {
-    left: -24px !important;
+  .timeline-item.left-branch .branch-line {
+    right: -12px !important;
+    left: auto !important;
+    width: 12px !important;
+  }
+
+  .timeline-item.right-branch .branch-line {
+    left: -12px !important;
+    right: auto !important;
+    width: 12px !important;
+  }
+
+  .timeline-item.left-branch .branch-node {
+    right: -18px !important;
+    left: auto !important;
+  }
+
+  .timeline-item.right-branch .branch-node {
+    left: -18px !important;
     right: auto !important;
   }
 
   .tree-card {
     max-width: 100%;
-    padding: 1.5rem 1.25rem;
-    border-radius: 20px;
+    padding: 0.85rem 0.75rem;
+    border-radius: 24px;
   }
 
   .tree-card h3 {
-    font-size: 1.25rem !important;
-    margin-bottom: 0.5rem !important;
+    font-size: 0.82rem !important;
+    margin-bottom: 0.35rem !important;
+    line-height: 1.25 !important;
+    font-weight: 600 !important;
   }
 
   .tree-card p {
-    font-size: 0.85rem !important;
-    line-height: 1.5 !important;
-    margin-bottom: 0.85rem !important;
+    font-size: 0.62rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.5rem !important;
   }
 
   .tree-card .card-badge {
-    padding: 3px 10px !important;
-    font-size: 0.65rem !important;
+    padding: 2px 8px !important;
+    font-size: 0.55rem !important;
   }
 }
 

@@ -17,7 +17,7 @@ export default function Hero({ onOpenBooking }) {
         </div>
 
         {/* Title with text gradient */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter leading-[1.05] sm:leading-[1] md:leading-[0.8]">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter leading-[1.2] sm:leading-[1.15] md:leading-[1.1]">
           <span className="text-gradient">
             Premium Apple Device Repair in Punjab.
           </span>

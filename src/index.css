@@ -179,9 +179,16 @@ a {
   user-select: none;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   cursor: pointer;
   transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (max-width: 640px) {
+  .scroll-indicator-label {
+    bottom: 5px;
+  }
 }
 
 .scroll-indicator-label:hover {
@@ -229,7 +236,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: 8px;
   border-bottom: none;
 }
 
@@ -1473,19 +1480,41 @@ a {
 @media (max-width: 640px) {
   .left-column {
     padding: 24px 16px;
-    gap: 40px;
+    gap: 40px !important;
     margin: 0;
     width: 100%;
     border-radius: 0;
   }
 
-  .left-column > *:not(header) {
+  .left-column > *:not(header):not(.scroll-indicator-label) {
     max-width: 100% !important;
     width: 100% !important;
   }
 
+  .section-divider {
+    margin: 24px auto 12px auto !important;
+  }
+
   .hero-title {
     font-size: 2.25rem;
+  }
+
+  .video-card-title,
+  .video-header-row .video-card-title,
+  .section-title {
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .slider-nav-buttons {
+    display: none !important;
+  }
+
+  .section-subtitle {
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
+    margin-top: 12px !important;
   }
 
   .hero-ctas {
@@ -1551,6 +1580,28 @@ a {
   .site-footer {
     padding: 50px 24px 30px 24px;
   }
+
+  .left-column .ready-to-restore-card {
+    padding: 2.2rem 1.25rem !important;
+    margin: 30px auto !important;
+    border-radius: 24px !important;
+  }
+
+  .ready-to-restore-card h2 {
+    font-size: 1.8rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .ready-to-restore-card p {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .ready-to-restore-card .cta-button {
+    padding: 12px 28px !important;
+    font-size: 0.95rem !important;
+  }
 }
 
 /* 13. Lenis Smooth Scroll Configuration */
@@ -1598,7 +1649,19 @@ html.lenis body {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   overflow: hidden;
-  border-radius: 44px;
+  border-radius: 24px;
+}
+
+@media (min-width: 640px) {
+  .showcase-face {
+    border-radius: 36px;
+  }
+}
+
+@media (min-width: 768px) {
+  .showcase-face {
+    border-radius: 44px;
+  }
 }
 
 .showcase-face-front {

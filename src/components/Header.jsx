@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function Header({ onOpenBooking }) {
   return (
-    <header className="site-header fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[100] w-[92%] sm:w-[85%] max-w-[600px] bg-white/40 backdrop-blur-xl rounded-full border border-slate-300/50 px-3 py-1.5 sm:px-4 sm:py-2 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.03)] select-none">
+    <header className="site-header fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[100] w-[92%] sm:w-[85%] max-w-[600px] bg-white/40 backdrop-blur-xl rounded-full border border-slate-300/50 px-3 pt-1.5 pb-1 sm:px-4 sm:py-2 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.03)] select-none">
 
       {/* Left: Circular Logo & Brand name */}
       <div className="flex items-center gap-2 sm:gap-2.5">
@@ -20,22 +20,22 @@ export default function Header({ onOpenBooking }) {
       </div>
 
       {/* Middle: Navigation Links */}
-      <nav className="hidden sm:flex items-center gap-6 md:gap-8">
+      <nav className="flex items-center gap-4 sm:gap-6 md:gap-8">
         <a
           href="#repairs"
-          className="text-slate-700 hover:text-slate-900 text-sm font-semibold tracking-wide transition-colors duration-200"
+          className="hidden sm:inline-block text-slate-700 hover:text-slate-900 text-sm font-semibold tracking-wide transition-colors duration-200"
         >
           Repairs
         </a>
         <a
           href="#pricing"
-          className="text-slate-700 hover:text-slate-900 text-sm font-semibold tracking-wide transition-colors duration-200"
+          className="hidden sm:inline-block text-slate-700 hover:text-slate-900 text-sm font-semibold tracking-wide transition-colors duration-200"
         >
           Store
         </a>
         <a
           href="#support"
-          className="text-slate-700 hover:text-slate-900 text-sm font-semibold tracking-wide transition-colors duration-200"
+          className="text-slate-700 hover:text-slate-900 text-xs sm:text-sm font-semibold tracking-wide transition-colors duration-200"
         >
           Support
         </a>

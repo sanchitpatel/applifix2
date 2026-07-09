@@ -126,7 +126,7 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
             </div>
           </div>
           {!isVideoLoaded && (
-            <div className="loading-indicator">Loading video...</div>
+            <div className="loading-indicator">Loading...</div>
           )}
         </div>
 
