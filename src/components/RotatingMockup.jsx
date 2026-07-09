@@ -30,33 +30,66 @@ export default function RotatingMockup() {
       try {
         const cache = await caches.open(cacheName);
         const updatedSources = { ...urls };
+        let allCached = true;
 
+        // Perform a quick initial check of the cache
         for (const [key, url] of Object.entries(urls)) {
-          let response = await cache.match(url);
-          
-          if (!response) {
-            console.log(`[Applifix Cache] Pre-fetching hero video ${key} in background...`);
-            const fetched = await fetch(url);
-            if (fetched.ok) {
-              await cache.put(url, fetched.clone());
-              response = fetched;
-            }
-          }
-
-          if (response && active) {
+          const response = await cache.match(url);
+          if (response) {
             const blob = await response.blob();
             const objectUrl = URL.createObjectURL(blob);
             createdObjectUrls[key] = objectUrl;
             updatedSources[key] = objectUrl;
+          } else {
+            allCached = false;
           }
         }
 
-        if (active) {
+        // If everything is already cached (returning visit), apply Blob URLs immediately
+        if (allCached && active) {
           setVideoSources(updatedSources);
-          console.log('[Applifix Cache] All Hero Mockup videos loaded as local Blob URLs');
+          console.log('[Applifix Cache] Hero videos loaded from local cache storage instantly.');
+          return;
+        }
+
+        // If not cached yet (first visit), delay background prefetching to avoid network queue fight
+        if (!allCached && active) {
+          console.log('[Applifix Cache] Hero videos not fully cached. Scheduling background fetch in 4s...');
+          setTimeout(async () => {
+            if (!active) return;
+            try {
+              for (const [key, url] of Object.entries(urls)) {
+                if (createdObjectUrls[key]) continue; // Already loaded from cache
+
+                let response = await cache.match(url);
+                if (!response) {
+                  console.log(`[Applifix Cache] Background fetching hero video: ${key}...`);
+                  const fetched = await fetch(url);
+                  if (fetched.ok) {
+                    await cache.put(url, fetched.clone());
+                    response = fetched;
+                  }
+                }
+
+                if (response && active) {
+                  const blob = await response.blob();
+                  const objectUrl = URL.createObjectURL(blob);
+                  createdObjectUrls[key] = objectUrl;
+                  updatedSources[key] = objectUrl;
+                }
+              }
+
+              if (active) {
+                setVideoSources(updatedSources);
+                console.log('[Applifix Cache] All Hero Mockup videos successfully cached and swapped to Blob URLs');
+              }
+            } catch (fetchErr) {
+              console.warn('[Applifix Cache] Delayed prefetch fetch failed:', fetchErr);
+            }
+          }, 4000);
         }
       } catch (err) {
-        console.warn('[Applifix Cache] Cache storage failed for hero videos:', err);
+        console.warn('[Applifix Cache] Cache storage setup failed for hero videos:', err);
       }
     };
 
@@ -73,6 +106,7 @@ export default function RotatingMockup() {
   }, []);
 
   const lastStepRef = useRef(-1);
+  const fallbackTimerRef = useRef(null);
   const rotationAngle = step * 180;
 
   // Determine the content of each face based on the step.
@@ -103,6 +137,9 @@ export default function RotatingMockup() {
     // Video steps: Play immediately when the card starts rotating
     const delay = 10;
     const timer = setTimeout(() => {
+      // Clear any existing fallback timers
+      clearTimeout(fallbackTimerRef.current);
+
       // Pause all front and back videos first to release decoding resource overhead
       [
         frontVideoRef.current, backVideoRef.current,
@@ -130,14 +167,28 @@ export default function RotatingMockup() {
           activeVideo.currentTime = 0;
           lastStepRef.current = step;
         }
-        activeVideo.play().catch(err => {
-          console.warn("Autoplay blocked or playback failed:", err);
-        });
+
+        // Try playing the video
+        activeVideo.play()
+          .then(() => {
+            // Autoplay/playback succeeded, clear the fallback timer
+            clearTimeout(fallbackTimerRef.current);
+          })
+          .catch(err => {
+            console.warn("Autoplay blocked or playback failed (possibly Low Power Mode):", err);
+            // Low Power Mode fallback: Automatically rotate to the next card after video ends
+            clearTimeout(fallbackTimerRef.current);
+            const fallbackDelay = activeVideo.duration ? (activeVideo.duration * 1000) + 500 : 6500;
+            fallbackTimerRef.current = setTimeout(() => {
+              handleVideoEnded();
+            }, fallbackDelay);
+          });
       }
     }, delay);
 
     return () => {
       clearTimeout(timer);
+      clearTimeout(fallbackTimerRef.current);
     };
   }, [step, videoSources]);
 

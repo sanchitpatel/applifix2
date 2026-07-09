@@ -22,32 +22,52 @@ const ScrollVideoDemo = ({ onOpenBooking }) => {
         const cache = await caches.open(cacheName);
         let response = await cache.match(videoUrl);
 
-        if (!response) {
-          console.log('[Applifix Cache] Pre-fetching scroll video in background...');
-          const fetchedResponse = await fetch(videoUrl);
-          if (fetchedResponse.ok) {
-            await cache.put(videoUrl, fetchedResponse.clone());
-            response = fetchedResponse;
+        // If already cached, apply Blob URL instantly
+        if (response) {
+          console.log('[Applifix Cache] Loaded scroll video from browser cache storage instantly!');
+          if (active) {
+            const blob = await response.blob();
+            objectUrl = URL.createObjectURL(blob);
+            setVideoSrc(objectUrl);
           }
-        } else {
-          console.log('[Applifix Cache] Loaded scroll video from browser cache storage!');
+          return;
         }
 
-        if (response && active) {
-          const blob = await response.blob();
-          objectUrl = URL.createObjectURL(blob);
-          console.log('[Applifix Cache] Video loaded as local Blob URL');
-          setVideoSrc(objectUrl);
+        // If not cached, schedule background prefetch after 5s to avoid network congestion
+        if (!response && active) {
+          console.log('[Applifix Cache] Scroll video not cached. Scheduling background prefetch in 5s...');
+          setTimeout(async () => {
+            if (!active) return;
+            try {
+              let res = await cache.match(videoUrl);
+              if (!res) {
+                console.log('[Applifix Cache] Background pre-fetching scroll video...');
+                const fetchedResponse = await fetch(videoUrl);
+                if (fetchedResponse.ok) {
+                  await cache.put(videoUrl, fetchedResponse.clone());
+                  res = fetchedResponse;
+                }
+              }
+              if (res && active) {
+                const blob = await res.blob();
+                objectUrl = URL.createObjectURL(blob);
+                setVideoSrc(objectUrl);
+                console.log('[Applifix Cache] Scroll video loaded from cached Blob URL');
+              }
+            } catch (fetchErr) {
+              console.warn('[Applifix Cache] Background prefetch failed:', fetchErr);
+            }
+          }, 5000);
         }
       } catch (err) {
         console.warn('[Applifix Cache] Cache storage failed, streaming from Vercel:', err);
       }
     };
 
-    // Delay download slightly to prioritize page load
+    // Delay initial cache check slightly
     const timer = setTimeout(() => {
       cacheAndLoadVideo();
-    }, 1000);
+    }, 100);
 
     return () => {
       active = false;
